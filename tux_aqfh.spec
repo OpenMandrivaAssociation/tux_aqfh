@@ -1,6 +1,6 @@
 %define name	tux_aqfh
 %define version	1.0.14
-%define release	7mdk
+%define release	%mkrel 8
 %define	Summary	Tuxedo T. Penguin: A Quest For Herring
 
 Name:		%{name}
@@ -14,7 +14,7 @@ Source11:	%{name}-16x16.png
 Source12:	%{name}-32x32.png
 Source13:	%{name}-48x48.png
 Summary:	%{Summary}
-BuildRequires:	plib-devel MesaGLU-devel XFree86-devel Mesa-common-devel
+BuildRequires:	plib-devel libmesaglu-devel libx11-devel 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -24,22 +24,25 @@ Tuxedo T. Penguin: A Quest For Herring
 %setup -q
 
 %build
-%configure	--bindir=%{_gamesbindir} \
-		--x-libraries="%{_prefix}/X11R6/%{_lib} -lplibjs"
+%configure --bindir=%{_gamesbindir} --x-libraries="-L%{_libdir} -lplibjs"
 %make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{makeinstall} bindir=$RPM_BUILD_ROOT%{_gamesbindir}
 
-install -d %{buildroot}%{_menudir}
-cat <<EOF > %{buildroot}%{_menudir}/%{name}
-?package(%{name}):command="%{_gamesbindir}/%{name}" \
-		  icon=%{name}.png \
-		  needs="x11" \
-		  section="More Applications/Games/Arcade" \
-		  title="Tuxedo Quest"\
-		  longtitle="%{Summary}"
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=%{name}
+Comment=%{summary}
+Exec=%{_gamesbindir}/%{name}
+Icon=%{name}
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Game;ArcadeGame;X-MandrivaLinux-MoreApplications-Games-Arcade
 EOF
 
 install -m644 %{SOURCE11} -D $RPM_BUILD_ROOT%{_miconsdir}/%{name}.png
@@ -66,4 +69,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
-%{_menudir}/%{name}
+%{_datadir}/applications/mandriva-%{name}.desktop
