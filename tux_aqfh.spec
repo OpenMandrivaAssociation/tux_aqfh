@@ -14,7 +14,10 @@ Source11:	%{name}-16x16.png
 Source12:	%{name}-32x32.png
 Source13:	%{name}-48x48.png
 Summary:	%{Summary}
-BuildRequires:	plib-devel libmesaglu-devel libx11-devel 
+BuildRequires:	plib-devel
+BuildRequires:  libmesaglu-devel
+BuildRequires:	libmesaglut-devel
+BuildRequires:  libx11-devel 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
