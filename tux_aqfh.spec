@@ -18,7 +18,6 @@ BuildRequires:	plib-devel
 BuildRequires:  libmesaglu-devel
 BuildRequires:	libmesaglut-devel
 BuildRequires:  libx11-devel 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Tuxedo T. Penguin: A Quest For Herring
