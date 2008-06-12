@@ -54,11 +54,15 @@ install -m644 %{SOURCE13} -D $RPM_BUILD_ROOT%{_liconsdir}/%{name}.png
 #Move website to HTML so we can include it as a %doc instead of clutterng up %_datadir
 mv $RPM_BUILD_ROOT%{_datadir}/%{name} HTML
 
+%if %mdkversion < 200900
 %post
 %{update_menus}
+%endif
  
+%if %mdkversion < 200900
 %postun
 %{clean_menus}   
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
