@@ -1,6 +1,6 @@
 %define name	tux_aqfh
 %define version	1.0.14
-%define release	%mkrel 11
+%define release	%mkrel 12
 %define	Summary	Tuxedo T. Penguin: A Quest For Herring
 
 Name:		%{name}
