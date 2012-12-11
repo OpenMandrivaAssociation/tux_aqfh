@@ -1,6 +1,6 @@
 %define name	tux_aqfh
 %define version	1.0.14
-%define release	%mkrel 12
+%define release	13
 %define	Summary	Tuxedo T. Penguin: A Quest For Herring
 
 Name:		%{name}
@@ -15,10 +15,10 @@ Source12:	%{name}-32x32.png
 Source13:	%{name}-48x48.png
 Summary:	%{Summary}
 BuildRequires:	plib-devel
-BuildRequires:  libmesaglu-devel
-BuildRequires:	libmesaglut-devel
-BuildRequires:  libx11-devel 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:  pkgconfig(glu)
+BuildRequires:	glut-devel
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(xmu)
 
 %description
 Tuxedo T. Penguin: A Quest For Herring
@@ -27,15 +27,14 @@ Tuxedo T. Penguin: A Quest For Herring
 %setup -q
 
 %build
-%configure --bindir=%{_gamesbindir} --x-libraries="-L%{_libdir} -lplibjs"
+%configure2_5x --bindir=%{_gamesbindir} --x-libraries="-L%{_libdir} -lplibjs"
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%{makeinstall} bindir=$RPM_BUILD_ROOT%{_gamesbindir}
+%{makeinstall} bindir=%{buildroot}%{_gamesbindir}
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop << EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=%{name}
 Comment=%{summary}
@@ -47,28 +46,14 @@ StartupNotify=true
 Categories=Game;ArcadeGame;X-MandrivaLinux-MoreApplications-Games-Arcade;
 EOF
 
-install -m644 %{SOURCE11} -D $RPM_BUILD_ROOT%{_miconsdir}/%{name}.png
-install -m644 %{SOURCE12} -D $RPM_BUILD_ROOT%{_iconsdir}/%{name}.png
-install -m644 %{SOURCE13} -D $RPM_BUILD_ROOT%{_liconsdir}/%{name}.png
+install -m644 %{SOURCE11} -D %{buildroot}%{_miconsdir}/%{name}.png
+install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/%{name}.png
+install -m644 %{SOURCE13} -D %{buildroot}%{_liconsdir}/%{name}.png
 
 #Move website to HTML so we can include it as a %doc instead of clutterng up %_datadir
-mv $RPM_BUILD_ROOT%{_datadir}/%{name} HTML
-
-%if %mdkversion < 200900
-%post
-%{update_menus}
-%endif
- 
-%if %mdkversion < 200900
-%postun
-%{clean_menus}   
-%endif
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+mv %{buildroot}%{_datadir}/%{name} HTML
 
 %files
-%defattr(-, root, root)
 %doc README HTML
 %{_gamesbindir}/%{name}
 %{_gamesdatadir}/%{name}
