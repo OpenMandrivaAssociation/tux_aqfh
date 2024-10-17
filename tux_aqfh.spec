@@ -7,7 +7,7 @@ Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 License:	GPL
-URL:		http://tuxaqfh.sourceforge.net/
+URL:		https://tuxaqfh.sourceforge.net/
 Group:		Games/Arcade
 Source0:	http://tuxaqfh.sourceforge.net/dist/%{name}-%{version}.tar.bz2
 Source11:	%{name}-16x16.png
